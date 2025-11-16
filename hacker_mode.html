@@ -38,6 +38,10 @@
                               radial-gradient(circle at 80% 0%, rgba(0, 243, 255, 0.08), transparent 35%);
         }
 
+        body.intro-active {
+            overflow: hidden;
+        }
+
         /* Digital Rain Background */
         #matrix-bg {
             position: fixed;
@@ -130,6 +134,260 @@
             0%   { opacity: 0.8; }
             50%  { opacity: 1; }
             100% { opacity: 0.8; }
+        }
+
+        /* Intro Overlay */
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(57, 255, 20, 0.15), rgba(5, 5, 5, 0.95)),
+                        radial-gradient(circle at 70% 10%, rgba(0, 243, 255, 0.2), transparent 60%),
+                        #010101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 40px;
+            z-index: 3000;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .intro-overlay.exit {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .intro-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+            text-align: center;
+        }
+
+        .glitch-banner {
+            font-family: var(--font-hacker);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-size: 1.1rem;
+            color: var(--color-red);
+            padding: 12px 24px;
+            border: 1px solid rgba(255, 59, 59, 0.6);
+            background: linear-gradient(90deg, rgba(255, 59, 59, 0.1), rgba(0, 0, 0, 0.6));
+            box-shadow: 0 0 18px rgba(255, 59, 59, 0.4);
+            animation: glitchPulse 2s steps(2, end) infinite;
+        }
+
+        @keyframes glitchPulse {
+            0% { text-shadow: 2px 0 rgba(255, 59, 59, 0.6), -2px -2px rgba(0, 243, 255, 0.4); }
+            50% { text-shadow: -2px 0 rgba(255, 59, 59, 0.6), 2px 2px rgba(0, 243, 255, 0.4); }
+            100% { text-shadow: 2px 0 rgba(255, 59, 59, 0.6), -2px -2px rgba(0, 243, 255, 0.4); }
+        }
+
+        .alert-halo {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+
+        .alert-halo::before,
+        .alert-halo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            border-radius: 50%;
+            animation: haloPulse 3s infinite;
+        }
+
+        .alert-halo::after {
+            animation-delay: 1.2s;
+        }
+
+        @keyframes haloPulse {
+            0% { transform: scale(0.85); opacity: 0.2; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(0.85); opacity: 0.2; }
+        }
+
+        .alert-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 160px;
+            height: 160px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 59, 59, 0.25), rgba(0, 0, 0, 0.9));
+            border: 2px solid rgba(255, 59, 59, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--color-light-grey);
+            gap: 6px;
+        }
+
+        .alert-core span {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: rgba(224, 224, 224, 0.8);
+        }
+
+        .alert-core strong {
+            font-size: 2.6rem;
+            letter-spacing: 2px;
+            color: var(--color-red);
+            text-shadow: 0 0 15px rgba(255, 59, 59, 0.7);
+            font-family: 'Source Code Pro', monospace;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .alert-core strong.critical {
+            color: var(--color-light-grey);
+            animation: countdownFlash 0.2s steps(2, end) infinite;
+        }
+
+        @keyframes countdownFlash {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 59, 59, 0.9); }
+            50% { text-shadow: 0 0 2px rgba(255, 59, 59, 0.3); }
+        }
+
+        .countdown-ms {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .alert-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 480px;
+        }
+
+        .alert-badge {
+            font-family: var(--font-hacker);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--color-black);
+            background: var(--color-green);
+            padding: 6px 12px;
+            border-radius: 3px;
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.35);
+            animation: badgeBlink 1.4s steps(2, end) infinite;
+        }
+
+        .alert-badge.danger {
+            background: var(--color-red);
+            color: var(--color-light-grey);
+            box-shadow: 0 0 15px rgba(255, 59, 59, 0.45);
+        }
+
+        @keyframes badgeBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .rapid-feed {
+            font-family: var(--font-hacker);
+            color: var(--color-green);
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            padding: 10px 16px;
+            width: min(520px, 90vw);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0 12px rgba(0, 243, 255, 0.25);
+            overflow: hidden;
+        }
+
+        .intro-console {
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px 35px 35px;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+            font-family: var(--font-hacker);
+            min-width: 360px;
+            text-align: left;
+        }
+
+        .console-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(224, 224, 224, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--color-green);
+        }
+
+        .status-indicator::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-green);
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.8);
+            animation: statusPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0% { opacity: 0.6; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.6; transform: scale(0.8); }
+        }
+
+        #intro-terminal {
+            min-height: 160px;
+            font-size: 0.95rem;
+            color: var(--color-green);
+            letter-spacing: 1px;
+        }
+
+        .console-line {
+            margin: 0 0 8px;
+            opacity: 0.35;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
+
+        .console-line.active {
+            opacity: 1;
+            color: var(--color-green);
+        }
+
+        .console-line.complete {
+            color: rgba(224, 224, 224, 0.9);
+            opacity: 0.8;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 243, 255, 0.15);
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-cyan), var(--color-green));
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+            transition: width 0.4s ease;
         }
 
         /* Dynamic Flying Code */
@@ -696,6 +954,39 @@
 </head>
 <body>
 
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-content">
+            <div class="glitch-banner">// EMERGENCY BREACH PROTOCOL //</div>
+            <div class="alert-halo">
+                <div class="alert-core">
+                    <span>TRACE WINDOW</span>
+                    <strong id="intro-countdown">
+                        <span id="countdown-seconds">03</span>
+                        <span class="countdown-ms" id="countdown-ms">.000</span>
+                    </strong>
+                    <span>SECONDS</span>
+                </div>
+            </div>
+            <div class="alert-badges">
+                <span class="alert-badge danger">TRACE<0x01</span>
+                <span class="alert-badge">GHOST NET // ONLINE</span>
+                <span class="alert-badge danger">BREACH ACTIVE</span>
+                <span class="alert-badge">DATA LINK STABLE</span>
+            </div>
+            <div class="rapid-feed" id="rapid-feed">// establishing rapid feed ...</div>
+            <div class="intro-console">
+                <div class="console-header">
+                    <span>// REMOTE NODE: 7F-ALPHA</span>
+                    <span class="status-indicator">LIVE LINK</span>
+                </div>
+                <div id="intro-terminal"></div>
+                <div class="progress-track">
+                    <div class="progress-bar" id="intro-progress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Digital Rain Background -->
     <canvas id="matrix-bg"></canvas>
 
@@ -984,6 +1275,148 @@
     // --- Binary Stream - Vertical Flow ---
         const binaryStreamTop = document.getElementById('binary-stream-top');
         const binaryCharsVertical = '01';
+
+        // --- Intro Overlay Control ---
+        const introOverlay = document.getElementById('intro-overlay');
+        const introTerminal = document.getElementById('intro-terminal');
+        const introProgress = document.getElementById('intro-progress');
+        const introCountdown = document.getElementById('intro-countdown');
+        const countdownSeconds = document.getElementById('countdown-seconds');
+        const countdownMillis = document.getElementById('countdown-ms');
+        const rapidFeed = document.getElementById('rapid-feed');
+
+        if (introOverlay && introTerminal && introProgress && introCountdown && countdownSeconds && countdownMillis && rapidFeed) {
+            document.body.classList.add('intro-active');
+
+            const introScript = [
+                { text: '> 00:00.120 :: vault door override // success', delay: 140 },
+                { text: '> 00:00.360 :: thermal ghosts enter ops bay', delay: 160 },
+                { text: '> 00:00.690 :: lockdown engaged > brute forcing tunnel', delay: 130 },
+                { text: '> 00:01.020 :: ghost tap clamps console // operator masked', delay: 150 },
+                { text: '> 00:01.430 :: counter-trace spinning up. rerouting pulses.', delay: 140 },
+                { text: '> 00:01.860 :: decrypt accelerator pegged at 110% ...', delay: 150 },
+                { text: '> 00:02.210 :: dashboards unlocked. siphoning intel caches.', delay: 140 },
+                { text: '> 00:02.640 :: escalation sirens. dumping hacker UI payload.', delay: 130 },
+                { text: '> 00:03.010 :: containment net misses by milliseconds.', delay: 200 }
+            ];
+
+            let introDismissed = false;
+            const TRACE_DURATION = 3200; // milliseconds
+            let countdownInterval = null;
+
+            const updateCountdown = (ms) => {
+                const seconds = Math.floor(ms / 1000);
+                const millis = Math.floor(ms % 1000);
+                countdownSeconds.textContent = String(Math.max(0, seconds)).padStart(2, '0');
+                countdownMillis.textContent = '.' + String(Math.max(0, millis)).padStart(3, '0');
+
+                if (ms <= 1200) {
+                    introCountdown.classList.add('critical');
+                } else {
+                    introCountdown.classList.remove('critical');
+                }
+            };
+            updateCountdown(TRACE_DURATION);
+
+            const dismissIntro = () => {
+                if (introDismissed) return;
+                introDismissed = true;
+                introProgress.style.width = '100%';
+                introOverlay.classList.add('exit');
+                document.body.classList.remove('intro-active');
+                countdownSeconds.textContent = '00';
+                countdownMillis.textContent = '.000';
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+                setTimeout(() => {
+                    introOverlay.style.display = 'none';
+                }, 900);
+            };
+
+            const typeLine = (element, text, onComplete) => {
+                let index = 0;
+                const typeChar = () => {
+                    if (introDismissed) return;
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        setTimeout(typeChar, 18);
+                    } else {
+                        element.classList.remove('active');
+                        element.classList.add('complete');
+                        onComplete && onComplete();
+                    }
+                };
+                typeChar();
+            };
+
+            const runSequence = (lineIndex = 0) => {
+                if (introDismissed) return;
+                if (lineIndex >= introScript.length) {
+                    setTimeout(dismissIntro, 600);
+                    return;
+                }
+
+                const { text, delay } = introScript[lineIndex];
+                const lineEl = document.createElement('p');
+                lineEl.className = 'console-line active';
+                introTerminal.appendChild(lineEl);
+
+                typeLine(lineEl, text, () => {
+                    const progress = ((lineIndex + 1) / introScript.length) * 100;
+                    introProgress.style.width = `${progress}%`;
+                    setTimeout(() => runSequence(lineIndex + 1), delay || 400);
+                });
+            };
+
+            setTimeout(() => runSequence(0), 250);
+
+            const startCountdown = () => {
+                const start = Date.now();
+                const target = start + TRACE_DURATION;
+                countdownInterval = setInterval(() => {
+                    if (introDismissed) {
+                        clearInterval(countdownInterval);
+                        return;
+                    }
+                    const remaining = Math.max(0, target - Date.now());
+                    updateCountdown(remaining);
+                    if (remaining === 0) {
+                        clearInterval(countdownInterval);
+                        dismissIntro();
+                    }
+                }, 33);
+            };
+            startCountdown();
+
+            const tickerMessages = [
+                '// TRACE 0.12ms :: spoof route injected',
+                '// NODE 7F :: handshake jitter 03.4%',
+                '// WATCHER DRONES BLINDED',
+                '// SYSCTRL LATENCY 1.2ms',
+                '// MIRROR FEED RECORDING',
+                '// EXIT VECTOR READY >>',
+                '// BREACH RISK 88% +++',
+                '// PACKET FLOOD CAMOUFLAGED'
+            ];
+
+            (function rotateTicker(index = 0) {
+                if (introDismissed) return;
+                rapidFeed.textContent = tickerMessages[index % tickerMessages.length];
+                const nextDelay = 140 + Math.random() * 120;
+                setTimeout(() => rotateTicker(index + 1), nextDelay);
+            })();
+
+            // Allow manual skip if needed
+            window.addEventListener('keydown', (evt) => {
+                if (evt.key === 'Enter') {
+                    dismissIntro();
+                }
+            });
+
+            introOverlay.addEventListener('click', dismissIntro);
+        }
 
         function createBinaryLines() {
             // Create more vertical streams scattered across the page
