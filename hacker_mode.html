@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal Raavi :: Cybersecurity Portfolio [v2.0]</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styling */
+        :root {
+            --color-black: #000000;
+            --color-dark: #0A0A0A;
+            --color-dark-grey: #1A1A1A;
+            --color-grey: #333333;
+            --color-light-grey: #E0E0E0;
+            --color-green: #39FF14; /* Hacker Green */
+            --color-red: #FF0000;
+            --font-main: 'Inter', sans-serif;
+            --font-hacker: 'Source Code Pro', monospace;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-black);
+            color: var(--color-light-grey);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        /* Digital Rain Background */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        /* CRT Scanlines Overlay */
+        .scanlines-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.03) 0%,
+                rgba(255, 255, 255, 0) 2px
+            );
+            background-size: 100% 3px;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0%   { opacity: 0.8; }
+            50%  { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Main Content Wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header / Nav */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--color-grey);
+            z-index: 100;
+            padding: 10px 0;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 20px;
+        }
+
+        header nav a {
+            font-family: var(--font-hacker);
+            color: var(--color-light-grey);
+            text-decoration: none;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        header nav a:hover,
+        header nav a:focus {
+            color: var(--color-green);
+            text-shadow: 0 0 8px var(--color-green);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 20px;
+            border-bottom: 1px dashed var(--color-grey);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-hacker);
+            color: var(--color-green);
+            text-shadow: 0 0 5px var(--color-green);
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.7;
+            color: #B0B0B0;
+        }
+
+        a {
+            color: var(--color-green);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        #init {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: none;
+        }
+        
+        /* ASCII Art */
+        .ascii-art {
+            font-family: var(--font-hacker);
+            color: var(--color-grey);
+            font-size: 10px;
+            line-height: 1.1;
+            letter-spacing: 1px;
+            text-align: center;
+            white-space: pre;
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        /* Glitch Effect */
+        #init h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            animation: glitch-base 1s infinite linear alternate-reverse;
+        }
+        
+        #init h1::before,
+        #init h1::after {
+            content: 'Vishal Raavi';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--color-black);
+        }
+
+        #init h1::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--color-red);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        #init h1::after {
+            left: -2px;
+            text-shadow: -1px 0 var(--color-green);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(22px, 9999px, 9px, 0); }
+            20% { clip: rect(44px, 9999px, 99px, 0); }
+            40% { clip: rect(33px, 9999px, 11px, 0); }
+            60% { clip: rect(77px, 9999px, 55px, 0); }
+            80% { clip: rect(10px, 9999px, 88px, 0); }
+            100% { clip: rect(66px, 9999px, 40px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(88px, 9999px, 12px, 0); }
+            20% { clip: rect(20px, 9999px, 77px, 0); }
+            40% { clip: rect(44px, 9999px, 60px, 0); }
+            60% { clip: rect(13px, 9999px, 5px, 0); }
+            80% { clip: rect(40px, 9999px, 33px, 0); }
+            100% { clip: rect(99px, 9999px, 70px, 0); }
+        }
+        @keyframes glitch-base {
+            0% { transform: skewX(0deg); }
+            10% { transform: skewX(1deg); }
+            20% { transform: skewX(0deg); }
+            80% { transform: skewX(0deg); }
+            90% { transform: skewX(-1deg); }
+            100% { transform: skewX(0deg); }
+        }
+
+        /* Terminal */
+        #terminal {
+            font-family: var(--font-hacker);
+            font-size: 0.9rem;
+            background: var(--color-dark);
+            border: 1px solid var(--color-grey);
+            padding: 20px;
+            height: 250px;
+            width: 100%;
+            max-width: 600px;
+            overflow-y: auto;
+            text-align: left;
+            margin-top: 30px;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+        }
+
+        #terminal-content span {
+            color: var(--color-light-grey);
+        }
+        #terminal-content .prompt {
+            color: var(--color-green);
+        }
+        #terminal-content .success {
+            color: var(--color-green);
+        }
+        #terminal-content .cmd {
+            color: #7ECFFF; /* Light blue for commands */
+        }
+        
+        .blink-caret {
+            animation: blink 1s step-end infinite;
+            width: 10px;
+            display: inline-block;
+            background-color: var(--color-green);
+            margin-left: 2px;
+            height: 1.2em;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: var(--color-green); }
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .skill-category {
+            background: var(--color-dark);
+            border: 1px solid var(--color-grey);
+            padding: 20px;
+        }
+        .skill-category h3 {
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--color-grey);
+            padding-bottom: 10px;
+        }
+        .skill-category ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .skill-category li {
+            padding: 4px 0;
+            font-family: var(--font-hacker);
+            font-size: 0.9rem;
+        }
+        .skill-category li::before {
+            content: '[+] ';
+            color: var(--color-green);
+        }
+
+        /* Experience (Intel) Section */
+        .intel-log {
+            border-left: 2px solid var(--color-grey);
+            padding-left: 20px;
+        }
+        .log-entry {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .log-entry::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--color-green);
+            border: 2px solid var(--color-black);
+            box-shadow: 0 0 10px var(--color-green);
+        }
+        .log-meta {
+            font-family: var(--font-hacker);
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        .log-meta .role {
+            font-size: 1.2rem;
+            color: var(--color-light-grey);
+            font-weight: 600;
+        }
+        .log-meta .org {
+            color: var(--color-green);
+        }
+        .log-report {
+            background: var(--color-dark);
+            border: 1px solid var(--color-grey);
+            padding: 15px;
+            font-size: 0.95rem;
+        }
+
+        /* Projects (Ops) Section */
+        .ops-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        .op-card {
+            background: var(--color-dark);
+            border: 1px solid var(--color-grey);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        .op-card:hover {
+            border-color: var(--color-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+        }
+        .op-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .op-card .tag {
+            font-family: var(--font-hacker);
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            background: var(--color-dark-grey);
+            border: 1px solid var(--color-grey);
+            color: var(--color-light-grey);
+        }
+        .op-card .tag.aws {
+            border-color: #FF9900;
+            color: #FF9900;
+        }
+        .op-card .tag.security {
+            border-color: var(--color-red);
+            color: var(--color-red);
+        }
+        .op-card .tag.dev {
+            border-color: #61DAFB;
+            color: #61DAFB;
+        }
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+        }
+        #contact p {
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-family: var(--font-hacker);
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: var(--font-hacker);
+            color: var(--color-grey);
+            font-size: 0.9rem;
+            border-top: 1px dashed var(--color-grey);
+        }
+
+        /* Scroll-Reveal Animation */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Digital Rain Background -->
+    <canvas id="matrix-bg"></canvas>
+    
+    <!-- Scanlines Overlay -->
+    <div class="scanlines-overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#init">// INIT</a>
+            <a href="#skills">// SKILLSET</a>
+            <a href="#intel">// INTEL</a>
+            <a href="#ops">// OPERATIONS</a>
+            <a href="#contact">// CONTACT</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+
+        <!-- Hero Section -->
+        <section id="init">
+            <!-- ASCII Art -->
+            <pre class="ascii-art">
+                
+                  .oOOOo.
+                 .OoooooO.
+                .OooO' 'OooO.
+                OooO'   'OooO
+                OooO     OooO
+                `OooO. .OooO'
+                 `OoooooO'
+                  `OoOoO'
+            </pre>
+            <h1 id="glitch-heading">Vishal Raavi</h1>
+            
+            <!-- Terminal -->
+            <div id="terminal">
+                <span id="terminal-content"></span>
+                <span class="blink-caret"></span>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="reveal-on-scroll">
+            <h2>// SKILLSET_LOADER</h2>
+            <div class="skills-grid">
+                
+                <div class="skill-category">
+                    <h3>// SECURITY_TOOLS</h3>
+                    <ul>
+                        <li>MetaSploit</li>
+                        <li>Burp Suite</li>
+                        <li>NMap</li>
+                        <li>Wireshark</li>
+                        <li>JMeter</li>
+                        <li>SQLInjection</li>
+                        <li>Shodan</li>
+                        <li>Weevely</li>
+                        <li>Sublist3r</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>// CLOUD_SECURITY [AWS]</h3>
+                    <ul>
+                        <li>WAF</li>
+                        <li>IAM</li>
+                        <li>KMS</li>
+                        <li>AWS Certificate Manager (ACM)</li>
+                        <li>CloudWatch</li>
+                        <li>CloudTrail</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>// CLOUD_INFRA [AWS]</h3>
+                    <ul>
+                        <li>EC2</li>
+                        <li>S3</li>
+                        <li>RDS (MySQL)</li>
+                        <li>VPC</li>
+                        <li>Application Load Balancer (ALB)</li>
+                        <li>Auto Scaling</li>
+                        <li>CloudFront</li>
+                        <li>Route 53</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>// LANGUAGES</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>JavaScript</li>
+                        <li>C</li>
+                        <li>PHP</li>
+                        <li>SQL</li>
+                        <li>HTML / CSS</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>// FRAMEWORKS_LIBS</h3>
+                    <ul>
+                        <li>React</li>
+                        <li>Node.js</li>
+                        <li>Flask</li>
+                        <li>RESTful API</li>
+                        <li>Pandas / Numpy</li>
+                        <li>Tkinter</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>// DEV_TOOLS</h3>
+                    <ul>
+                        <li>Git / Github</li>
+                        <li>Docker</li>
+                        <li>Apache2</li>
+                        <li>Azure (Basics)</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Experience (Intel) Section -->
+        <section id="intel" class="reveal-on-scroll">
+            <h2>// MISSION_INTEL</h2>
+            <div class="intel-log">
+                
+                <!-- Log Entry 1 -->
+                <div class="log-entry reveal-on-scroll">
+                    <div class="log-meta">
+                        <span class="date">Aug 2024 - Present</span><br>
+                        <span class="role">Graduate Research Assistant / Full Stack Developer</span><br>
+                        <span class="org">@ Center for Advanced Life Cycle Engineering (CALCE)</span>
+                    </div>
+                    <div class="log-report">
+                        <p>
+                            [REPORT]: Took on the challenge of modernizing our desktop-based Reliability Tool. I led its transition to a fully functional web application using React and React Flow, making it accessible to over 100 users. This involved engineering key features like layout management and data handling from the ground up, which ultimately reduced task completion time by 45%. I also integrated the frontend with our Flask backend via RESTful APIs and maintained a vigilant eye on security, monitoring packages to ensure 100% uptime and zero incidents post-launch.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Log Entry 2 -->
+                <div class="log-entry reveal-on-scroll">
+                    <div class="log-meta">
+                        <span class="date">May 2024 - Aug 2024</span><br>
+                        <span class="role">Full Stack Developer</span><br>
+                        <span class="org">@ Center for Advanced Life Cycle Engineering (CALCE)</span>
+                    </div>
+                    <div class="log-report">
+                        <p>
+                            [REPORT]: My journey with the Reliability Tool began here, where I built the initial desktop version using Python and Tkinter. I focused heavily on user experience, designing interactive elements like movable blocks and self-adjusting arrows. This project required me to develop the core Python logic for system reliability and availability, creating a 100% cross-platform functional tool for all our users.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Log Entry 3 -->
+                <div class="log-entry reveal-on-scroll">
+                    <div class="log-meta">
+                        <span class="date">Apr 2024 - May 2024</span><br>
+                        <span class="role">Web Developer</span><br>
+                        <span class="org">@ Center for Advanced Life Cycle Engineering (CALCE)</span>
+                    </div>
+                    <div class="log-report">
+                        <p>
+                            [REPORT]: In my web developer role, I crafted a responsive, five-section website using HTML, CSS, and JavaScript. A key part of this project was integrating Sheets DB via an API for seamless data storage, which successfully managed user feedback and issue submissions. I also focused on performance, optimizing load times by 40% and ensuring 100% cross-browser compatibility.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Projects (Ops) Section -->
+        <section id="ops" class="reveal-on-scroll">
+            <h2>// COMPLETED_OPS</h2>
+            <div class="ops-grid">
+                
+                <!-- Operation 1 -->
+                <div class="op-card reveal-on-scroll">
+                    <h3>[OP]: Scalable and Secure E-Commerce Platform on AWS</h3>
+                    <p>
+                        Designed, developed, and deployed a robust e-commerce platform leveraging AWS services. Architected for high availability using an ALB, Auto Scaling Groups with EC2, and a Multi-AZ Amazon RDS database. Implemented multi-layer security using AWS WAF, ACM for HTTPS, and KMS for data-at-rest encryption. Optimized global content delivery with CloudFront and S3, while establishing comprehensive monitoring with CloudWatch and CloudTrail.
+                    </p>
+                    <div class="tags">
+                        <span class="tag aws">AWS</span>
+                        <span class="tag security">WAF</span>
+                        <span class="tag security">KMS</span>
+                        <span class="tag security">IAM</span>
+                        <span class="tag aws">EC2</span>
+                        <span class="tag aws">RDS</span>
+                        <span class="tag aws">ALB</span>
+                        <span class="tag aws">CloudFront</span>
+                        <span class="tag security">CloudWatch</span>
+                    </div>
+                </div>
+
+                <!-- Operation 2 -->
+                <div class="op-card reveal-on-scroll">
+                    <h3>[OP]: CALCE Reliability Tool (Web & Desktop)</h3>
+                    <p>
+                        Led the development of a critical Reliability Tool, first as a cross-platform desktop app (Python/Tkinter) and then migrating it to a modern, accessible web application (React/Flask) for over 100 users.
+                    </p>
+                    <div class="tags">
+                        <span class="tag dev">React</span>
+                        <span class="tag dev">Python</span>
+                        <span class="tag dev">Flask</span>
+                        <span class="tag dev">Tkinter</span>
+                        <span class="tag dev">React Flow</span>
+                        <span class="tag">Full Stack</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="reveal-on-scroll">
+            <h2>// ESTABLISH_CONTACT</h2>
+            <p>
+                Actively seeking full-time roles in Cybersecurity and Cloud Engineering.
+                My comms are open.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:vishalraavi.work@gmail.com" target="_blank">[ EMAIL ]</a>
+                <a href="https://linkedin.com/in/vishalraavi" target="_blank">[ LINKEDIN ]</a>
+                <a href="https://github.com/vishal45-coder" target="_blank">[ GITHUB ]</a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>// SESSION_TERMINATED</p>
+        <p>© 2025 Vishal Raavi. All systems operational.</p>
+    </footer>
+
+    <script>
+    (function() { // <--- ADDED: Wrap entire script in an IIFE to prevent global scope conflicts
+        // --- Digital Rain (Matrix) Effect ---
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        let cols = Math.floor(w / 20) + 1;
+        let ypos = Array(cols).fill(0);
+
+        // Characters for the rain
+        const matrixChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)'; // Fading effect
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.fillStyle = 'var(--color-green)';
+            ctx.font = '15pt monospace';
+
+            ypos.forEach((y, ind) => {
+                const text = matrixChars.charAt(Math.random() * matrixChars.length);
+                const x = ind * 20;
+                ctx.fillText(text, x, y);
+                if (y > 100 + Math.random() * 10000) {
+                    ypos[ind] = 0;
+                } else {
+                    ypos[ind] = y + 20;
+                }
+            });
+        }
+        
+        let matrixInterval = setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            cols = Math.floor(w / 20) + 1;
+            ypos = Array(cols).fill(0);
+        });
+
+
+        // --- Terminal Typing Effect ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const terminalContent = document.getElementById('terminal-content');
+            const lines = [
+                { text: 'Running system diagnostics...', prefix: '> ', delay: 200 },
+                { text: 'Bypassing firewalls... <span class="success">[OK]</span>', prefix: '> ', delay: 500 },
+                { text: 'Establishing secure connection... <span class="success">[OK]</span>', prefix: '> ', delay: 300 },
+                { text: 'Access Granted. Welcome, Operator.', prefix: '> ', delay: 500 },
+                { text: 'Loading <span class="cmd">vishal.exe</span>...', prefix: '$ ', delay: 1000 },
+                { text: '[Vishal Raavi // Cybersecurity & Cloud Engineer]', prefix: '> ', delay: 200 },
+                { text: 'Portfolio loaded. All systems nominal.', prefix: '> ', delay: 100 }
+            ];
+            let lineIndex = 0;
+            let charIndex = 0;
+            const typeSpeed = 30;
+
+            function typeLine() {
+                if (lineIndex >= lines.length) return;
+
+                const currentLine = lines[lineIndex];
+                const textToType = currentLine.text;
+                
+                if (charIndex === 0) {
+                    terminalContent.innerHTML += `<span class="prompt">${currentLine.prefix || '> '}</span>`;
+                }
+
+                if (charIndex < textToType.length) {
+                    // This logic avoids typing out HTML tags
+                    if (textToType.charAt(charIndex) === '<') {
+                        const tagEnd = textToType.indexOf('>', charIndex);
+                        terminalContent.innerHTML += textToType.substring(charIndex, tagEnd + 1);
+                        charIndex = tagEnd + 1;
+                    } else {
+                        terminalContent.innerHTML += textToType.charAt(charIndex);
+                        charIndex++;
+                    }
+                    setTimeout(typeLine, typeSpeed);
+                } else {
+                    terminalContent.innerHTML += '<br>';
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeLine, currentLine.delay || 500);
+                }
+            }
+
+            // Start typing after a short delay
+            setTimeout(typeLine, 500);
+        });
+
+        // --- Scroll-Reveal Effect ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Optional: Stop observing after it's visible
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // --- Smooth scrolling for nav links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    })(); // <--- ADDED: Close the IIFE
+    </script>
+
+</body>
+</html>
