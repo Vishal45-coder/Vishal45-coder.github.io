@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishal Raavi :: Cybersecurity Portfolio [v2.0]</title>
+    <title>Vishal Raavi :: Cybersecurity Portfolio [Hacker Mode]</title>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +45,50 @@
             opacity: 0.3;
         }
 
+        /* Blurred Binary Stream - Vertical Flow */
+        #binary-stream-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .binary-line {
+            position: absolute;
+            font-family: var(--font-hacker);
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--color-green);
+            white-space: nowrap;
+            opacity: 0.25;
+            filter: blur(0.8px);
+            text-shadow: 0 0 5px var(--color-green);
+            animation: binaryScroll linear infinite;
+            left: 10%;
+        }
+
+        @keyframes binaryScroll {
+            0% {
+                transform: translateY(-200px);
+                opacity: 0.1;
+            }
+            10% {
+                opacity: 0.25;
+            }
+            90% {
+                opacity: 0.25;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
         /* CRT Scanlines Overlay */
         .scanlines-overlay {
             position: fixed;
@@ -51,7 +96,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 0;
             background: linear-gradient(
                 to bottom,
                 rgba(255, 255, 255, 0.03) 0%,
@@ -81,6 +126,7 @@
             pointer-events: none;
             text-shadow: 0 0 8px var(--color-green), 0 0 4px rgba(57, 255, 20, 0.5);
             filter: drop-shadow(0 0 5px var(--color-green));
+            display: none; /* Disabled */
         }
 
         @keyframes flyCodeDynamic {
@@ -319,7 +365,7 @@
             max-width: 600px;
             overflow-y: auto;
             text-align: left;
-            margin-top: 30px;
+            margin: 30px auto 0 auto;
             box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
         }
 
@@ -508,12 +554,12 @@
 
     <!-- Digital Rain Background -->
     <canvas id="matrix-bg"></canvas>
+
+    <!-- Blurred Binary Stream at Top -->
+    <div id="binary-stream-top"></div>
     
     <!-- Scanlines Overlay -->
     <div class="scanlines-overlay"></div>
-
-    <!-- Dynamic Flying Code Container -->
-    <div id="flying-code-container"></div>
 
     <!-- Header -->
     <header>
@@ -532,18 +578,7 @@
 
         <!-- Hero Section -->
         <section id="init">
-            <!-- ASCII Art -->
-            <pre class="ascii-art">
-                
-                  .oOOOo.
-                 .OoooooO.
-                .OooO' 'OooO.
-                OooO'   'OooO
-                OooO     OooO
-                `OooO. .OooO'
-                 `OoooooO'
-                  `OoOoO'
-            </pre>
+
             <h1 id="glitch-heading">Vishal Raavi</h1>
             
             <!-- Terminal -->
@@ -753,6 +788,38 @@
 
     <script>
     (function() { // <--- ADDED: Wrap entire script in an IIFE to prevent global scope conflicts
+        // --- Binary Stream - Vertical Flow ---
+        const binaryStreamTop = document.getElementById('binary-stream-top');
+        const binaryCharsVertical = '01';
+
+        function createBinaryLines() {
+            // Create more vertical streams scattered across the page
+            const positions = [8, 15, 22, 35, 50, 65, 78, 88];
+            
+            positions.forEach((posX, index) => {
+                const line = document.createElement('div');
+                line.className = 'binary-line';
+                
+                // Create a vertical column of binary
+                let binaryText = '';
+                for (let i = 0; i < 60; i++) {
+                    binaryText += binaryCharsVertical.charAt(Math.floor(Math.random() * 2));
+                    if ((i + 1) % 8 === 0) binaryText += '\n';
+                }
+                
+                line.textContent = binaryText;
+                line.style.left = posX + '%';
+                line.style.top = '-200px';
+                line.style.writingMode = 'vertical-rl';
+                line.style.textOrientation = 'mixed';
+                line.style.animationDuration = '15s';
+                line.style.animationDelay = (index * 0.8) + 's';
+                line.style.animationIterationCount = 'infinite';
+                binaryStreamTop.appendChild(line);
+            });
+        }
+        createBinaryLines();
+
         // --- Hacked Binary River Effect ---
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
@@ -934,81 +1001,7 @@
                 }
             });
         });
-
-        // --- Spy Click Event: Generate Flying Code ---
-        const flyingCodeContainer = document.getElementById('flying-code-container');
-        
-        // Code snippets that will fly out
-        const codeSnippets = [
-            'import secrets',
-            'def breach():',
-            'while True:',
-            'sudo rm -rf /',
-            'SELECT * FROM',
-            'DROP TABLE',
-            'alert("pwned");',
-            'console.log("hacked")',
-            'nmap -sV',
-            'msfconsole',
-            'burpsuite',
-            'sqlmap',
-            'hydra -l admin',
-            'wireshark -i',
-            'metasploit',
-            'root@kali:~#',
-            'EXPLOIT>>',
-            'FIREWALL DOWN',
-            'DATA STOLEN',
-            'ACCESS GRANTED',
-            '>> HACKING...',
-            '<< BYPASS OK',
-            'SHELL SPAWNED',
-            'CRYPTO BROKEN'
-        ];
-
-        // Click anywhere to trigger flying code
-        document.addEventListener('click', function(e) {
-            // Generate 8-12 flying code snippets
-            const numSnippets = Math.floor(Math.random() * 5) + 8;
-            
-            for (let i = 0; i < numSnippets; i++) {
-                setTimeout(() => {
-                    createFlyingCode(e.clientX, e.clientY);
-                }, i * 50);
-            }
-        });
-
-        function createFlyingCode(originX, originY) {
-            const codeElement = document.createElement('div');
-            const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-            
-            codeElement.textContent = snippet;
-            codeElement.className = 'flying-code';
-            codeElement.style.left = originX + 'px';
-            codeElement.style.top = originY + 'px';
-            
-            // Random spread direction
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 250 + Math.random() * 400;
-            const endX = originX + Math.cos(angle) * distance;
-            const endY = originY + Math.sin(angle) * distance;
-            
-            // Apply animation duration
-            const duration = 2.5 + Math.random() * 2;
-            codeElement.style.animation = `flyCodeDynamic ${duration}s ease-out forwards`;
-            codeElement.style.setProperty('--end-x', (endX - originX) + 'px');
-            codeElement.style.setProperty('--end-y', (endY - originY) + 'px');
-            
-            flyingCodeContainer.appendChild(codeElement);
-            
-            // Remove element after animation
-            setTimeout(() => {
-                if (codeElement.parentNode) {
-                    codeElement.parentNode.removeChild(codeElement);
-                }
-            }, duration * 1000);
-        }
-    })(); // <--- ADDED: Close the IIFE
+    })(); // <--- Close the IIFE
     </script>
 
 </body>
