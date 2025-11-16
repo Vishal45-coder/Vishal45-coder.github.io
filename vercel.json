@@ -1,5 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/main.html" }
+    { "source": "/", "destination": "/main.html" },
+    { "source": "/home", "destination": "/main.html" },
+    { "source": "/stealth", "destination": "/hacker_mode.html" }
   ]
 }
